@@ -57,7 +57,14 @@ def get_mtime(r: requests.Response) -> Optional[int]:
 def resumable_download(
     url: str, file: pathlib.Path, server_timestamp: bool = False
 ) -> bool:
-    headers = dict()
+    url = url.replace("cdn.tnmr.org", "cdn1003.tnmr.org")
+    headers = {
+        'Host': 'cdn.tnmr.org',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'Referer': 'https://lulustream.com/',
+    }
     existing_bytes = file.stat().st_size if file.is_file() else 0
     if existing_bytes:
         headers["Range"] = f"bytes={existing_bytes}-"
